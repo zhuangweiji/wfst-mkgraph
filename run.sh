@@ -1,23 +1,33 @@
 #!/usr/bin/env bash
-# Copyright 2018 Xiaomi Weiji Zhuang
+# Copyright 2018 Beijing Xiaomi Intelligent Technology Co.,Ltd Weiji Zhuang
+
+#pip3 install jieba
+. path.sh
 LC_ALL=
 
-local/txt2fstjpg.sh data/xiaoaitongxue/corpus.txt 1 exp/LM/xiaoaitongxue/
-local/txt2fstjpg.sh data/xiaoaitongxue/corpus.txt 2 exp/LM/xiaoaitongxue/
-local/txt2fstjpg.sh data/command/corpus.txt 1 exp/LM/command/
-local/txt2fstjpg.sh data/command/corpus.txt 2 exp/LM/command/
+for cmd in xiaoaitongxue command ;do
+  python3 -m jieba -d ' ' data/$cmd/corpus.txt >data/$cmd/corpus.split
+done
 
-. path.sh
-mkdir -p exp/LM/union
-fstunion exp/LM/xiaoaitongxue/G-o1.fst exp/LM/command/G-o1.fst exp/LM/union/union-o1.fst
-fstunion exp/LM/xiaoaitongxue/G-o2.fst exp/LM/command/G-o2.fst exp/LM/union/union-o2.fst
+cat data/*/corpus.split | tr ' ' '\n' |\
+  grep -v ^$ | sort -u |\
+  awk '{print $1" "NR }END{print "<eps> 0";print "#0 "NR+1;print "<s> "NR+2;print "</s> "NR+3 }' \
+  > data/lang/words.txt
 
-cat data/*/corpus.split | tr ' ' '\n' | grep -v ^$ | sort -u |awk '{print $1" "NR }END{print "<eps> 0";print "#0 "NR+1;print "<s> "NR+2;print "</s> "NR+3 }' > exp/LM/union/words.txt
+for cmd in xiaoaitongxue command ;do
+  for order in 1 2 ; do
+    local/spt2fstjpg.sh data/$cmd/corpus.split $order data/$cmd
+  done
+done
 
-for order in 1 2 ;do
-  fstisstochastic exp/LM/union/union-o${order}.fst
+union_dir=exp/fst/union
+mkdir -p $union_dir
 
-  fstdraw --isymbols=exp/LM/union/words.txt --osymbols=exp/LM/union/words.txt exp/LM/union/union-o${order}.fst > exp/LM/union/union-o${order}.dot
-  sed -i 's/fontsize = 14/fontname="simsun.ttc",fontsize = 20/g' exp/LM/union/union-o${order}.dot
-  dot -Tjpg exp/LM/union/union-o${order}.dot > exp/LM/union/union-o${order}.jpg
+for order in 1 2 ; do
+  fstunion data/xiaoaitongxue/G-o$order.fst data/command/G-o$order.fst $union_dir/union-o$order.fst
+  fstisstochastic $union_dir/union-o${order}.fst
+  fstdraw --isymbols=data/lang/words.txt --osymbols=data/lang/words.txt $union_dir/union-o${order}.fst > $union_dir/union-o${order}.dot
+  sed -i 's/fontsize = 14/fontname="simsun.ttc",fontsize = 20/g' $union_dir/union-o${order}.dot
+  dot -Tjpg $union_dir/union-o${order}.dot > $union_dir/union-o${order}.jpg
+  convert $union_dir/union-o${order}.jpg -rotate 90 $union_dir/union-o${order}.jpg
 done

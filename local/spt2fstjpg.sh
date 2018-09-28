@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Copyright 2018 Xiaomi Weiji Zhuang
+# Copyright 2018 Beijing Xiaomi Intelligent Technology Co.,Ltd Weiji Zhuang
 echo "$0 $@"
 if [ $# != 3 ];then
-    echo "usage:$0 <corpus-split> <order> <out-dir>"
+    echo "usage:$0 <corpus-spt> <order> <out-dir>"
     echo "egs: $0 data/xiaoaitongxue/corpus.txt"
     exit 1;
 fi
@@ -19,7 +19,7 @@ mkdir -p ${out_dir}
 ngram-count -text ${corpus_txt} -order ${order} -gt2max 0 -gt1max 0 -lm ${out_dir}/lm-o${order}.arpa
 
 arpa2fst --disambig-symbol=#0 --max-arpa-warnings=-1 \
-    --read-symbol-table=${in_dir}/words.txt \
+    --read-symbol-table=data/lang/words.txt \
     ${out_dir}/lm-o${order}.arpa   ${out_dir}/G-o${order}.fst
 
 fstisstochastic ${out_dir}/G-o${order}.fst
@@ -30,9 +30,10 @@ fstisstochastic ${out_dir}/G-o${order}.fst
 #第二个数字意味着有些状态具有“太多”的概率。 对于具有回退的语言模型的FST来说，有一些状态具有“太多”概率是正常的。
 #有时，第二个值比较大，这是因为回退权重使得状态之和大于1
 
-fstdraw --isymbols=${in_dir}/words.txt --osymbols=${in_dir}/words.txt ${out_dir}/G-o${order}.fst > ${out_dir}/fst-o${order}.dot
+fstdraw --isymbols=data/lang/words.txt --osymbols=data/lang/words.txt ${out_dir}/G-o${order}.fst > ${out_dir}/fst-o${order}.dot
 sed -i 's/fontsize = 14/fontname="simsun.ttc",fontsize = 20/g' ${out_dir}/fst-o${order}.dot
 dot -Tjpg ${out_dir}/fst-o${order}.dot > ${out_dir}/fst-o${order}.jpg
+convert ${out_dir}/fst-o${order}.jpg -rotate 90 ${out_dir}/fst-o${order}.jpg
 
 echo $0 $@ : success!
 exit 0
