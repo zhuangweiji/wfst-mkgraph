@@ -1,0 +1,19 @@
+digraph FST {
+rankdir = LR;
+size = "8.5,11";
+label = "";
+center = 1;
+orientation = Landscape;
+ranksep = "0.4";
+nodesep = "0.25";
+2 [label = "2", shape = circle, style = bold, fontname="simsun.ttc",fontsize = 20]
+	2 -> 0 [label = "<eps>:<eps>", fontname="simsun.ttc",fontsize = 20];
+	2 -> 1 [label = "<eps>:<eps>", fontname="simsun.ttc",fontsize = 20];
+0 [label = "0/0.98083", shape = doublecircle, style = solid, fontname="simsun.ttc",fontsize = 20]
+	0 -> 0 [label = "FILLER:FILLER/2.0794", fontname="simsun.ttc",fontsize = 20];
+	0 -> 0 [label = "同学:同学/1.3863", fontname="simsun.ttc",fontsize = 20];
+	0 -> 0 [label = "小爱:小爱/1.3863", fontname="simsun.ttc",fontsize = 20];
+1 [label = "1/0.69315", shape = doublecircle, style = solid, fontname="simsun.ttc",fontsize = 20]
+	1 -> 1 [label = "关灯:关灯/1.3863", fontname="simsun.ttc",fontsize = 20];
+	1 -> 1 [label = "开灯:开灯/1.3863", fontname="simsun.ttc",fontsize = 20];
+}

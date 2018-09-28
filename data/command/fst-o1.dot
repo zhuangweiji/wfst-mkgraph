@@ -1,0 +1,12 @@
+digraph FST {
+rankdir = LR;
+size = "8.5,11";
+label = "";
+center = 1;
+orientation = Landscape;
+ranksep = "0.4";
+nodesep = "0.25";
+0 [label = "0/0.69315", shape = doublecircle, style = bold, fontname="simsun.ttc",fontsize = 20]
+	0 -> 0 [label = "关灯:关灯/1.3863", fontname="simsun.ttc",fontsize = 20];
+	0 -> 0 [label = "开灯:开灯/1.3863", fontname="simsun.ttc",fontsize = 20];
+}
