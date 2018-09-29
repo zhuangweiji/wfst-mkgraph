@@ -1,0 +1,7 @@
+!SIL	1.0	SIL
+<NOISE>	1.0	NSN
+<SPOKEN_NOISE>	1.0	SPN #1
+<UNK>	1.0	SPN #2
+FILLER	1.0	filler
+小	1.0	x iao3
+爱	1.0	a ai4

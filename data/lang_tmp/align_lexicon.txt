@@ -1,0 +1,8 @@
+!SIL SIL
+<NOISE> NSN
+<SPOKEN_NOISE> SPN
+<UNK> SPN
+FILLER          filler
+小          x iao3
+爱          a ai4
+<eps> SIL

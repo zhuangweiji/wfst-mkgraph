@@ -1,0 +1,13 @@
+<eps> 0
+SIL 1
+SPN 2
+NSN 3
+a 4
+ai4 5
+filler 6
+iao3 7
+x 8
+#0 9
+#1 10
+#2 11
+#3 12
