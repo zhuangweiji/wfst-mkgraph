@@ -1,8 +1,9 @@
-shared split SIL
-shared split SPN
-shared split NSN
+shared split sil
+shared split unk
 shared split a
 shared split ai4
-shared split filler
 shared split iao3
+shared split ong2
+shared split t
+shared split ue2
 shared split x

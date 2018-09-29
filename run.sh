@@ -8,6 +8,7 @@ LC_ALL=
 #  python3 -m jieba -d ' ' data/$cmd/corpus.txt >data/$cmd/corpus.split
 #done
 
+mkdir data/lang
 cat data/*/corpus.split | tr ' ' '\n' |\
   grep -v ^$ | sort -u |\
   awk '{print $1" "NR }END{print "<eps> 0";print "#0 "NR+1;print "<s> "NR+2;print "</s> "NR+3 }' \
@@ -29,13 +30,11 @@ wfsa_dir=exp/wfsa
 mkdir -p $wfsa_dir
 local/xiaoai2wfsajpg.sh $wfsa_dir/xiaoai
 
-###L.FST###
+###L.FST###(Non-Deterministic FST, NFST)
 fst_dir=exp/fst
 mkdir -p $fst_dir
-local/lfst2jpg.sh data/lang/L.fst data/lang 
+local/lfst2jpg.sh data/lang/L.fst $fst_dir/lang 
 
-
-exit 0;
 ###WFST###
 wfst_dir=exp/wfst
 mkdir -p $wfst_dir
@@ -45,7 +44,7 @@ for cmd in xiaoai guandeng ;do
   done
 done
 
-
+#exit
 ###union###
 union_dir=exp/wfst/union
 mkdir -p $union_dir

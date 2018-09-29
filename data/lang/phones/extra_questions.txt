@@ -1,4 +1,5 @@
-SIL SPN NSN
-a filler x
-ai4
+sil unk
+a t x
 iao3
+ong2 ue2
+ai4

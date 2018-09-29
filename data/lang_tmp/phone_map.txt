@@ -1,8 +1,9 @@
-SIL SIL
-SPN SPN
-NSN NSN
+sil sil
+unk unk
 a a
 ai4 ai4
-filler filler
 iao3 iao3
+ong2 ong2
+t t
+ue2 ue2
 x x

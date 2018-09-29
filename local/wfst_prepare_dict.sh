@@ -46,7 +46,7 @@ cat $dict_dir/lexicon/lexicon-iv.txt |\
     ' | sort -k1 > $dict_dir/nonsilence_phones.txt || exit 1;
 
 # select silence phones manually.
-(echo sil; echo fl;) > $dict_dir/silence_phones.txt
+(echo sil; echo unk;) > $dict_dir/silence_phones.txt
 
 # select optional silence ,It's going to be inserted to Between the two words.
 echo sil > $dict_dir/optional_silence.txt
@@ -61,7 +61,7 @@ cat $dict_dir/nonsilence_phones.txt | perl -e 'while(<>){ foreach $p (split(" ",
 # Add silences/spoken_noise/unknow_noise/noises to the lexicon.
 # Some dictionaries contain silences/spoken_noise/unknow_noise/noises prons.
 # the sort | uniq is to remove a duplicated pron.
-(echo '!SIL sil'; echo '<UNK> fl'; ) | \
+(echo '!SIL sil'; echo '<UNK> unk'; ) | \
 cat -  $dict_dir/lexicon/lexicon-iv.txt | sort | uniq > $dict_dir/lexicon.txt || exit 1;
 
 echo $0 $@ : succeeded!
