@@ -22,10 +22,11 @@ awk 'NR==FNR{lexicon[$1]; next;} ($1 in lexicon)' \
   $words_file $lexicon_file | egrep -v '<.?s>' |\
   sort -u > $dict_dir/lexicon/lexicon-iv.txt || exit 1;
 
+echo 1
 # out-of-vocabulary words
 awk 'NR==FNR{lexicon[$1]; next;} !($1 in lexicon)' \
   $words_file $lexicon_file | egrep -v '<.?s>' |\
-  sort -u > $dict_dir/lexicon/words-oov.txt || exit 1;
+  sort -u > $dict_dir/lexicon/words-oov.txt  ||echo no oov-words
 
 # extract non-silence phones
 cat $dict_dir/lexicon/lexicon-iv.txt |\

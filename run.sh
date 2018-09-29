@@ -4,11 +4,11 @@
 #pip3 install jieba
 . path.sh
 LC_ALL=
-#for cmd in xiaoai guandeng ;do
+#for cmd in xiaoai xiuxi ;do
 #  python3 -m jieba -d ' ' data/$cmd/corpus.txt >data/$cmd/corpus.split
 #done
 
-mkdir data/lang
+mkdir -p data/lang
 cat data/*/corpus.split | tr ' ' '\n' |\
   grep -v ^$ | sort -u |\
   awk '{print $1" "NR }END{print "<eps> 0";print "#0 "NR+1;print "<s> "NR+2;print "</s> "NR+3 }' \
@@ -33,24 +33,24 @@ local/xiaoai2wfsajpg.sh $wfsa_dir/xiaoai
 ###L.FST###(Non-Deterministic FST, NFST)
 fst_dir=exp/fst
 mkdir -p $fst_dir
-local/lfst2jpg.sh data/lang/L.fst $fst_dir/lang 
+local/lfst2jpg.sh data/lang/L.fst $fst_dir/lang/L.jpg 
+local/lfst2jpg.sh data/lang/L_disambig.fst $fst_dir/lang/L_disambig.fst
 
 ###WFST###
 wfst_dir=exp/wfst
 mkdir -p $wfst_dir
-for cmd in xiaoai guandeng ;do
+for cmd in xiaoai xiuxi ;do
   for order in 1 2 ; do
     local/spt2wfstjpg.sh data/$cmd/corpus.split $order $wfst_dir/$cmd
   done
 done
 
-#exit
 ###union###
 union_dir=exp/wfst/union
 mkdir -p $union_dir
 
 for order in 1 2 ; do
-  fstunion data/xiaoai/G-o$order.fst data/guandeng/G-o$order.fst $union_dir/union-o$order.fst
+  fstunion exp/wfst/xiaoai/G-o$order.fst exp/wfst/xiuxi/G-o$order.fst $union_dir/union-o$order.fst
   fstisstochastic $union_dir/union-o${order}.fst
   fstdraw --isymbols=data/lang/words.txt --osymbols=data/lang/words.txt $union_dir/union-o${order}.fst > $union_dir/union-o${order}.dot
   sed -i 's/fontsize = 14/fontname="simsun.ttc",fontsize = 20/g' $union_dir/union-o${order}.dot
