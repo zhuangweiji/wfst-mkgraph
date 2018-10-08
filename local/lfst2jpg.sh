@@ -17,10 +17,17 @@ dir=`dirname $dictionary`
 out_dir=`dirname $out_file`
 mkdir -p ${out_dir}
 
-fstdraw --isymbols=$dir/phones.txt --osymbols=$dir/words.txt  $dictionary > ${out_file}.dot
-sed -i 's/fontsize = 14/fontname="simsun.ttc",fontsize = 20/g' ${out_file}.dot
-dot -Tjpg ${out_file}.dot > ${out_file}
-convert ${out_file} -rotate 90 ${out_file}
+
+  fstdraw \
+    --width=20 \
+    --height=20 \
+    --fontsize=20 \
+    --title=`basename $dictionary` \
+    --isymbols=$dir/phones.txt \
+    --osymbols=$dir/words.txt \
+    $dictionary |\
+    dot -Tjpg |\
+    convert - -rotate 90 ${out_file}
 
 echo $0 $@ : success!
 exit 0

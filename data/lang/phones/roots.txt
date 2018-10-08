@@ -1,0 +1,9 @@
+shared split sil
+shared split unk
+shared split aa
+shared split ai4
+shared split d
+shared split eng1
+shared split i1
+shared split iao3
+shared split x

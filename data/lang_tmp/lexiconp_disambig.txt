@@ -1,0 +1,5 @@
+!SIL	1.0	sil
+<UNK>	1.0	unk
+小爱	1.0	x iao3 aa ai4
+灯	1.0	d eng1
+熄	1.0	x i1
